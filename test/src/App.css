@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+.main {
+  background-color: black;
+  width: 100%;
+  height: 100vh;
+}
+.header {
+  width: 100%;
+  height: 450px;
+  background-color: black;
+  position: relative;
+}
+.img {
+  position: absolute;
+  top: 240px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+}
+.body {
+  width: 100%;
+  height: calc(100vh - 380px);
+  background-color: black;
+  /* position: relative; */
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  align-items: center;
+}
+.logInput {
+  /* position: absolute; */
+  width: 350px;
+  height: 50px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.logInput input {
+  color: #fa6ee3;
+  background-color: transparent;
+  border-style: none;
+  border-bottom: 1px solid white;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.logInput input:focus {
+  color: white;
+  outline: 2px solid #fa6ee3;
+  border-style: none;
+  text-shadow: 0 0 0 transparent;
+}
+.atag {
+  margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.atag a {
+  font-size: 16px;
+  color: rgb(236, 228, 228);
+}
+
+.btn {
+  margin-top: 50px;
+  width: 250px;
+  height: 80px;
+}
+.btn button {
+  font-size: 20px;
+  font-weight: 900;
+  background-color: white;
+  border-radius: 50px;
+  width: 100%;
+  height: 100%;
+}
+.btn button:hover {
+  cursor: grab;
+  border: 3px solid white;
+  background-color: #fa6ee3;
+  color: black;
+  transition: 0.2s;
+}
+.joinTxt {
+  color: white;
+  font-weight: 900;
+}
+
+.board {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  position: absolute;
+  width: 600px;
+  height: 700px;
+}
+.boardTitle {
+  width: 100%;
+  height: 10%;
+  font-size: 50px;
+  text-align: center;
+  color: white;
+  background-color: black;
+  font-weight: 900;
+}
+.boardContent {
+  border: 3px solid #fa6ee3;
+  width: 100%;
+  height: 90%;
+}
+.boardBtn {
+  display: flex;
+  justify-content: center;
+}
+.conTitle {
+  color: white;
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+  font-size: 20px;
+  font-weight: 900;
+}
+.cont1 {
+  width: 30%;
+}
+.cont2 {
+  width: 70%;
+}
+.send {
+  height: 40px;
+  bottom: 20px;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.sendcont1 {
+  padding-left: 15px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 20%;
+  font-weight: 900;
+  color: #fa6ee3;
+}
+.sendcont2 {
+  height: 100%;
+  margin-right: 20px;
+  width: 40%;
+  background-color: black;
+  border-style: none;
+  color: white;
+  outline: none;
+  text-align: start;
+  font-weight: 900;
+  border-bottom: 2px solid #fa6ee3;
+  padding-left: 10px;
+}
+.sendcont3 {
+  height: 100%;
+  width: 15%;
+  margin-right: 10px;
+  background-color: black;
+  border: 2px solid #fa6ee3;
+  border-radius: 30px;
+  color: #fa6ee3;
+  font-weight: 900;
+  font-size: 15px;
+}
+.sendcont3:hover {
+  background-color: #fa6ee3;
+  color: black;
+  cursor: grab;
+  transition: 0.2s;
+}
+.linkPos {
+  display: flex;
+}
+.myText {
+  color: white;
+  font-size: large;
+}
+.btnPos {
+  display: flex;
+  justify-content: center;
+}
