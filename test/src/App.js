@@ -23,7 +23,7 @@ function App() {
     writeId: "",
     write: "",
   });
-
+  //
   // 게시판의 모든 작성글을 배열에 담음
   const [contents, setContents] = useState([]);
 
