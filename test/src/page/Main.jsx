@@ -1,6 +1,6 @@
 import { Header } from "../com";
-import { Input, Atag, Btn } from "../comTag";
-import React, { useState } from "react";
+import { Atag, Btn } from "../comTag";
+import React from "react";
 
 const Main = (props) => {
   const styles = {
@@ -11,10 +11,13 @@ const Main = (props) => {
 
   const { login, isLoggedIn, logId, setLogId, setContent, setUser } = props;
 
+  // 로그인 페이지에서 input값에 로그인할 id를 logId에 update
   const onChangeId = (e) => {
     setLogId(e.target.value);
   };
 
+  // 해당 id가 users에 있는지 확인하는 함수
+  // 있으면 true를 내보낸다.
   const isId = (element) => {
     if (element.userId === logId) {
       return true;
@@ -23,6 +26,9 @@ const Main = (props) => {
     }
   };
 
+  // button 클릭시 isId로 users 배열에 logId가 있는지 확인하여
+  // logId가 존재하면 login state를 true로 update
+  // board에서 글 작성 시 writeId에 login 시 미리 logId를 넣는다
   const onClickLogin = () => {
     if (props.users.find(isId)) {
       setContent((current) => {
@@ -36,6 +42,9 @@ const Main = (props) => {
     }
   };
 
+  // logout시 login false로 바꾼다
+  // logId도 빈칸으로 만든다.
+  // user도 빈칸으로 만든다.
   const onClickLogOut = () => {
     login(false);
     setLogId("");
@@ -53,6 +62,7 @@ const Main = (props) => {
     <div className="main">
       <Header />
       <div className="body" style={styles.marTop}>
+        {/* 로그인 시 login true로 바뀌면서 태그 바뀜 */}
         {isLoggedIn ? (
           <div className="myText">{logId} 님 My Page</div>
         ) : (
@@ -61,6 +71,7 @@ const Main = (props) => {
           </div>
         )}
 
+        {/* 회원가입,아이디찾기 / 로그아웃 삼항연산자 */}
         {isLoggedIn ? (
           <div className="linkPos">
             <Atag txt="로그아웃" onClickLogOut={onClickLogOut} />

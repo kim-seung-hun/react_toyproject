@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 const Board = (props) => {
   const { logId, resistContent, contents, setContent, setContents } = props;
 
+  // input에 작성된 write를 contents에 추가해주기 위해 만듬
   const [write, setWrite] = useState("");
+  // 게시판에 수정 input값이 나오기 위한 삼항연산자 기본값
   const [isEmit, setIsEmit] = useState("수정");
+  // write에 수정 값을 넣기 위해 만듬
   const [emit, setEmit] = useState("");
 
   const styles = {
@@ -51,6 +54,12 @@ const Board = (props) => {
   };
 
   const nav = useNavigate();
+  // const [posts, setPosts] = useState([]);
+  // const [input, setInput] = useState("");
+
+  //////////////////////////////////////////////////////////////////////////////////////
+
+  // Pagination
 
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(5);
@@ -60,36 +69,46 @@ const Board = (props) => {
     setStart((currentPage - 1) * 15);
     setEnd(currentPage * 15);
   }, [currentPage]);
+  // const inputHandler = (e) => {
+  //   setInput(e.target.value);
+  // };
 
   const pageNum = [1];
   for (let i = 1; i < Math.ceil(contents?.length / 15); i++) {
     pageNum.push(i + 1);
   }
 
+  //////////////////////////////////////////////////////////////////////////////////
+
+  // 삭제 버튼 click 시 , 생성된 각 버튼마다 className에 index 값을 넣어줌으로써 해당 contents 배열 삭제
   const onRemove = (e) => {
     contents.splice(Number(e.target.className), 1);
     alert("삭제되었습니다");
     nav("/board");
   };
 
+  // [수정] 버튼 클릭 시 isEmit을 나타나게 하기 위해 index 값 넣어줌
   const onClickEmit = (e) => {
     setIsEmit(e.target.className);
   };
 
+  // 내용 수정값을 onchangeHandle로 받아줌
   const onChangeEmit = (e) => {
     setEmit(e.target.value);
   };
 
-  console.log(contents);
-
+  // [수정완료] 버튼을 누르면 해당 className을 통해 배열의 index 값을 알아내 해당 contents의 write를 바꿈
   const emitComplete = (e) => {
     const eNum = Number(e.target.className);
     let newCont = [...contents];
     newCont[eNum].write = emit;
     setContents(newCont);
+    // 수정완료되면 해당 input값 사라짐
     setIsEmit("수정");
   };
 
+  // pagination start 와 end를 이용해 정해진 수만큼 content를 보여줌
+  // 일반 유저의 list
   const contentList = contents?.slice(start, end).map((v, index) => (
     <div style={styles.flex} key={index}>
       {v.writeId == "manager" ? (
@@ -171,6 +190,7 @@ const Board = (props) => {
     </div>
   ));
 
+  // 매니저의 list
   const contentListManager = contents?.slice(start, end).map((v, index) => (
     <div style={styles.flex} key={index}>
       {v.writeId == "manager" ? (
@@ -262,6 +282,7 @@ const Board = (props) => {
     [write]
   );
 
+  // pagination
   const pagination = (
     <nav
       style={{
@@ -330,6 +351,8 @@ const Board = (props) => {
               className="sendcont2"
               placeholder="내용 입력해주세요"
               onChange={onChangeHandle}
+              value={write}
+              // value={input}
             />
             <button
               className="sendcont3"
