@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const userController = require("../controller/user_controller");
 
-router.post("/join", userController.joinUserCreate);
+router.post("/signUp", userController.joinUserCreate);
 
-router.get("/login", userController.loginView);
+router.post("/find", userController.findUserId);
 
 router.post("/login", userController.loginUserFind);
 

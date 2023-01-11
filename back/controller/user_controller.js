@@ -2,8 +2,8 @@ const userService = require("../service/user_service");
 
 // 회원가입
 module.exports.joinUserCreate = async (req, res) => {
-  const { id } = req.body;
-  const isJoin = await userService.joinFindOne(id);
+  const { user_id, user_name } = req.body;
+  const isJoin = await userService.joinFindOne(user_id, user_name);
 
   if (isJoin) {
     res.send("success");
@@ -12,19 +12,26 @@ module.exports.joinUserCreate = async (req, res) => {
   }
 };
 
-// 로그인 화면 띄우기
-module.exports.loginView = (req, res) => {
-  res.render("login");
+// 아이디 찾기
+module.exports.findUserId = async (req, res) => {
+  const { user_name } = req.body;
+  const isfind = await userService.findUserId(user_name);
+
+  if (isfind) {
+    res.send({ message: "success", user_id: isfind });
+  } else {
+    res.send({ message: "fail" });
+  }
 };
 
 // 로그인
 module.exports.loginUserFind = async (req, res) => {
-  const isLogin = await userService.loginFindOne(req.body.log);
+  const { user_id } = req.body;
+  const isLogin = await userService.loginUserFind(user_id);
 
   if (isLogin) {
-    req.session.user_id = req.body.log;
-    res.send("success");
+    res.send({ message: "success", user_name: isLogin });
   } else {
-    res.send("fail");
+    res.send({ message: "fail" });
   }
 };

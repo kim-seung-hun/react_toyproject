@@ -5,21 +5,12 @@ class Board extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        title: {
+        user_id: {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
         content: {
           type: Sequelize.STRING(200),
-          allowNull: false,
-        },
-        user_id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        views: {
-          type: Sequelize.INTEGER,
-          defaultValue: 0,
           allowNull: false,
         },
         createdAt: {
@@ -43,10 +34,10 @@ class Board extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    db.Board.belongsTo(db.User, { foreignKey: "user_id", sourceKey: "id" });
-    db.Board.hasMany(db.Reply, { foreignKey: "board_id", sourceKey: "id" });
-  }
+  // static associate(db) {
+  //   db.Board.belongsTo(db.User, { foreignKey: "user_id", sourceKey: "id" });
+  //   db.Board.hasMany(db.Reply, { foreignKey: "board_id", sourceKey: "id" });
+  // }
 }
 
 module.exports = Board;

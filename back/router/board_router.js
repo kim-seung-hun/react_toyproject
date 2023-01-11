@@ -1,17 +1,12 @@
 const router = require("express").Router();
 const boardController = require("../controller/board_controller");
-const reqplyController = require("../controller/reply_controller");
 
 router.get("/", boardController.boardView);
 
-router.get("/write", boardController.writeView);
+router.post("/create", boardController.boardWrite);
 
-router.post("/write", boardController.boardWrite);
+router.post("/delete", boardController.boardDelete);
 
-router.get("/detail/:id", boardController.boardChcek);
-
-router.post("/reply", reqplyController.replyWrite);
-
-router.post("/view", boardController.viewCount);
+router.post("/update", boardController.boardUpdate);
 
 module.exports = router;

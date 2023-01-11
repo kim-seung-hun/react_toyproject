@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useState, useCallback } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Main, Join, Board, Find } from "./page";
+import { useSelector } from "react-redux";
 
 function App() {
   const nav = useNavigate();
@@ -93,65 +94,19 @@ function App() {
     setContents((currentArray) => [...currentArray, content]);
   }, [content]);
 
-  //////////////////////////////////////////////////////////////////////
+  const isLogin = useSelector((state) => state.userReducer.isLogin);
 
-  // 로그인이 성공하였을때 true로 바뀌면서 mypage로 이동할수 있다.
-  const [isLoggedIn, setLogin] = useState(false);
-
-  ///////////////////////////////////////////////////////////////////////
-
-  // 로그인이 되어있을 경우 board에 접속하고 (로그인되어야 갈수 있는 페이지를 Redirect에 추가한다.)
-  // 로그인이 안되어있으면 전부 로그인 페이지로 이동
   const Redirect = () => {
-    return isLoggedIn == true ? (
-      <Board
-        isLoggedIn={isLoggedIn}
-        logId={logId}
-        setContent={setContent}
-        content={content}
-        contents={contents}
-        resistContent={resistContent}
-        setContents={setContents}
-      />
-    ) : (
-      <Navigate to={"/"} />
-    );
+    return isLogin ? <Board /> : <Navigate to={"/"} />;
   };
 
   // 각자 navigate를 통해 이동할수있다
   return (
     <div className="App">
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Main
-              user={user}
-              users={users}
-              login={setLogin}
-              isLoggedIn={isLoggedIn}
-              logId={logId}
-              setLogId={setLogId}
-              setUser={setUser}
-              setContent={setContent}
-              setContents={setContents}
-            />
-          }
-        />
-        <Route
-          path="/join"
-          element={
-            <Join
-              user={user}
-              joinUser={joinUser}
-              onChangeHandle={onChangeHandle}
-            />
-          }
-        />
-        <Route
-          path="/find"
-          element={<Find onChangeFind={onChangeFind} findUser={findUser} />}
-        />
+        <Route path="/" element={<Main />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/find" element={<Find />} />
         <Route path="/board" element={<Redirect />} />
       </Routes>
     </div>

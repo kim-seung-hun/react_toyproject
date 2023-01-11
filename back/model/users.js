@@ -7,12 +7,10 @@ class User extends Sequelize.Model {
         user_id: {
           type: Sequelize.STRING(100),
           allowNull: false,
-          unique: true,
         },
-        acc_tok: {
-          type: Sequelize.STRING(200),
-          allowNull: true,
-          unique: true,
+        user_name: {
+          type: Sequelize.STRING(100),
+          allowNull: false,
         },
       },
       {
@@ -26,10 +24,10 @@ class User extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    db.User.hasMany(db.Board, { foreignKey: "user_id", sourceKey: "id" });
-    db.User.hasMany(db.Reply, { foreignKey: "user_id", sourceKey: "id" });
-  }
+  // static associate(db) {
+  //   db.User.hasMany(db.Board, { foreignKey: "user_id", sourceKey: "id" });
+  //   db.User.hasMany(db.Reply, { foreignKey: "user_id", sourceKey: "id" });
+  // }
 }
 
 module.exports = User;

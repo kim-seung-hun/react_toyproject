@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 const session = require("express-session");
 const { sequelize } = require("./model");
 const userRouter = require("./router/user_router");
@@ -7,7 +8,14 @@ const boardRouter = require("./router/board_router");
 
 const app = express();
 
-app.use(express.urlencoded({ extended: false }));
+const options = {
+  origin: "http://localhost:3000",
+};
+
+// app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use(cors(options));
 
 app.use(
   session({
@@ -17,7 +25,7 @@ app.use(
   })
 );
 
-app.use("/user", userRouter);
+app.use("/", userRouter);
 app.use("/board", boardRouter);
 
 sequelize
@@ -29,6 +37,6 @@ sequelize
     console.log(err);
   });
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log("server running");
 });

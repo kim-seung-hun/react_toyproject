@@ -1,21 +1,15 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useCallback } from "react";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { boardAction } from "../redux/middleware";
 
-const Board = (props) => {
-  const { logId, resistContent, contents, setContent, setContents } = props;
-
-  // input에 작성된 write를 contents에 추가해주기 위해 만듬
-  const [write, setWrite] = useState("");
-  // 게시판에 수정 input값이 나오기 위한 삼항연산자 기본값
-  const [isEmit, setIsEmit] = useState("수정");
-  // write에 수정 값을 넣기 위해 만듬
-  const [emit, setEmit] = useState("");
-
+const Board = () => {
   const styles = {
     margin: {
-      margin: "50px auto",
+      margin: "30px auto",
     },
     contents: {
       color: "white",
@@ -30,6 +24,7 @@ const Board = (props) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      fontSize: "13px",
     },
     MaWidth30: {
       width: "30%",
@@ -44,6 +39,7 @@ const Board = (props) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      fontSize: "13px",
     },
     update: {
       width: "50%",
@@ -53,10 +49,29 @@ const Board = (props) => {
     },
   };
 
-  const nav = useNavigate();
-  // const [posts, setPosts] = useState([]);
-  // const [input, setInput] = useState("");
+  const [boardList, setBoardList] = useState([]);
 
+  useEffect(() => {
+    axios("http://localhost:8000/board").then((e) => {
+      setBoardList(e.data.boardList);
+    });
+  }, []);
+
+  const nav = useNavigate();
+  const dispatch = useDispatch();
+
+  const user_id = useSelector((state) => state.userReducer.user_id);
+
+  const contentRef = useRef();
+
+  const contentResister = () => {
+    if (contentRef.current.value) {
+      dispatch(boardAction.create(user_id, contentRef.current.value));
+      contentRef.current.value = "";
+    } else {
+      alert("내용을 입력해 주세요");
+    }
+  };
   //////////////////////////////////////////////////////////////////////////////////////
 
   // Pagination
@@ -66,66 +81,79 @@ const Board = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    setStart((currentPage - 1) * 15);
-    setEnd(currentPage * 15);
+    setStart((currentPage - 1) * 11);
+    setEnd(currentPage * 11);
   }, [currentPage]);
-  // const inputHandler = (e) => {
-  //   setInput(e.target.value);
-  // };
 
   const pageNum = [1];
-  for (let i = 1; i < Math.ceil(contents?.length / 15); i++) {
+  for (let i = 1; i < Math.ceil(boardList?.length / 11); i++) {
     pageNum.push(i + 1);
   }
 
   //////////////////////////////////////////////////////////////////////////////////
 
-  // 삭제 버튼 click 시 , 생성된 각 버튼마다 className에 index 값을 넣어줌으로써 해당 contents 배열 삭제
-  const onRemove = (e) => {
-    contents.splice(Number(e.target.className), 1);
-    alert("삭제되었습니다");
-    nav("/board");
+  const onRemove = async (e) => {
+    const num = Number(e.target.parentNode.className);
+    const result = await axios({
+      method: "post",
+      data: {
+        id: num,
+      },
+      url: "http://localhost:8000/board/delete",
+    });
+    if (result.data === "success") {
+      boardList.splice(Number(e.target.className), 1);
+      alert("삭제되었습니다");
+    } else {
+      alert("실패!");
+    }
   };
+
+  const [isEmit, setIsEmit] = useState();
+  const emitRef = useRef();
 
   // [수정] 버튼 클릭 시 isEmit을 나타나게 하기 위해 index 값 넣어줌
   const onClickEmit = (e) => {
     setIsEmit(e.target.className);
   };
 
-  // 내용 수정값을 onchangeHandle로 받아줌
-  const onChangeEmit = (e) => {
-    setEmit(e.target.value);
-  };
-
   // [수정완료] 버튼을 누르면 해당 className을 통해 배열의 index 값을 알아내 해당 contents의 write를 바꿈
-  const emitComplete = (e) => {
-    const eNum = Number(e.target.className);
-    let newCont = [...contents];
-    newCont[eNum].write = emit;
-    setContents(newCont);
-    // 수정완료되면 해당 input값 사라짐
-    setIsEmit("수정");
+  const emitComplete = async (e) => {
+    const num = Number(e.target.parentNode.className);
+    const index = e.target.className;
+
+    const result = await axios({
+      method: "post",
+      url: "http://localhost:8000/board/update",
+      data: {
+        id: num,
+        content: emitRef.current.value,
+      },
+    });
+    if (result.data === "success") {
+      setIsEmit("-1");
+      alert("수정완료");
+    } else {
+      alert("실패!");
+    }
   };
 
   // pagination start 와 end를 이용해 정해진 수만큼 content를 보여줌
   // 일반 유저의 list
-  const contentList = contents?.slice(start, end).map((v, index) => (
+  const contentList = boardList?.slice(start, end).map((v, index) => (
     <div style={styles.flex} key={index}>
-      {v.writeId == "manager" ? (
-        <div style={styles.MaWidth30}>{v.writeId}</div>
-      ) : (
-        <div style={styles.width30}>{v.writeId}</div>
-      )}
+      <div>{index}</div>
+      <div style={styles.width30}>{v.user_id}</div>
       {isEmit == index ? (
-        <div style={styles.update}>
+        <div style={styles.update} className={v.id}>
           <input
+            ref={emitRef}
             style={{
               border: "1px solid #fa6ee3",
               backgroundColor: "black",
               height: "100%",
               color: "white",
             }}
-            onChange={onChangeEmit}
           />
           <button
             style={{
@@ -144,9 +172,9 @@ const Board = (props) => {
           </button>
         </div>
       ) : (
-        <div style={styles.width70}>{v.write}</div>
+        <div style={styles.width70}>{v.content}</div>
       )}
-      {v.writeId == logId ? (
+      {v.user_id == user_id ? (
         <div
           style={{
             width: "20%",
@@ -154,6 +182,7 @@ const Board = (props) => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          className={v.id}
         >
           <button
             style={{
@@ -190,98 +219,6 @@ const Board = (props) => {
     </div>
   ));
 
-  // 매니저의 list
-  const contentListManager = contents?.slice(start, end).map((v, index) => (
-    <div style={styles.flex} key={index}>
-      {v.writeId == "manager" ? (
-        <div style={styles.MaWidth30}>{v.writeId}</div>
-      ) : (
-        <div style={styles.width30}>{v.writeId}</div>
-      )}
-      {isEmit == index ? (
-        <div style={styles.update}>
-          <input
-            style={{
-              border: "1px solid #fa6ee3",
-              backgroundColor: "black",
-              height: "100%",
-              color: "white",
-            }}
-            onChange={onChangeEmit}
-          />
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "#fa6ee3",
-              borderStyle: "none",
-              width: "60px",
-              marginLeft: "10px",
-              fontWeight: "900",
-              cursor: "grab",
-            }}
-            className={index}
-            onClick={emitComplete}
-          >
-            {"[수정 완료]"}
-          </button>
-        </div>
-      ) : (
-        <div style={styles.width70}>{v.write}</div>
-      )}
-      <div
-        style={{
-          width: "20%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {v.writeId == logId ? (
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "#fa6ee3",
-              borderStyle: "none",
-              width: "40px",
-              fontWeight: "900",
-              cursor: "grab",
-            }}
-            className={index}
-            onClick={onClickEmit}
-          >
-            {"[수정]"}
-          </button>
-        ) : (
-          ""
-        )}
-        <button
-          style={{
-            backgroundColor: "black",
-            color: "#fa6ee3",
-            borderStyle: "none",
-            width: "40px",
-            fontWeight: "900",
-            cursor: "grab",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          className={index}
-          onClick={onRemove}
-        >
-          {"[삭제]"}
-        </button>
-      </div>
-    </div>
-  ));
-
-  const onChangeHandle = useCallback(
-    (e) => {
-      setWrite(e.target.value);
-    },
-    [write]
-  );
-
   // pagination
   const pagination = (
     <nav
@@ -305,7 +242,7 @@ const Board = (props) => {
           >
             <button
               style={{
-                fontSize: "25px",
+                fontSize: "15px",
                 fontWeight: "700",
                 color: "#fa6ee3",
                 backgroundColor: "black",
@@ -330,54 +267,29 @@ const Board = (props) => {
         <div className="boardTitle">Board</div>
         <div className="boardContent">
           <div className="conTitle">
-            <div className="cont1" style={{ width: "30%" }}>
+            <div className="cont1" style={{ width: "35%" }}>
               작성자
             </div>
-            <div className="cont2" style={{ width: "50%" }}>
+            <div className="cont2" style={{ width: "40%" }}>
               내용
             </div>
-            <div style={{ width: "20%" }}></div>
+            <div style={{ width: "25%" }}></div>
           </div>
-          {logId == "manager" ? (
-            <div style={styles.contents}>{contentListManager}</div>
-          ) : (
-            <div style={styles.contents}>{contentList}</div>
-          )}
+          <div style={styles.contents}>{contentList}</div>
           {pagination}
           <div className="send">
-            <div className="sendcont1">{logId} 님</div>
+            <div className="sendcont1">{user_id} 님</div>
             <input
-              name="write"
+              ref={contentRef}
               className="sendcont2"
               placeholder="내용 입력해주세요"
-              onChange={onChangeHandle}
-              value={write}
-              // value={input}
             />
-            <button
-              className="sendcont3"
-              onClick={() => {
-                setContent((current) => {
-                  const newContent = { ...current };
-                  newContent.write = write;
-                  return newContent;
-                });
-              }}
-            >
+            <button className="sendcont3" onClick={contentResister}>
               등록
-            </button>
-            <button
-              className="sendcont3"
-              onClick={() => {
-                resistContent();
-                alert("등록되었습니다");
-              }}
-            >
-              올리기
             </button>
           </div>
         </div>
-        <div style={styles.margin} className="btn">
+        <div style={styles.margin} className="btnPos">
           <button
             onClick={() => {
               nav("/");
