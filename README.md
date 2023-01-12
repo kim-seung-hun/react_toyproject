@@ -44,7 +44,7 @@
 
   1. frontend에서 데이터와 함께 axios로 전송
   2. backend에선 첫번째로 router로 받고 controller로 전달
-  3. controller에서 데이터 관련작업을 service에서 function을 import 하여 데이터 작업 실시
+  3. controller에서 데이터 관련작업을 service에서 function을 import 하여 데이터 작업 실시 - 여기서 CRUD 구현
   4. controller에서 데이터 작업 완료되면 frontend로 전달
 
 - router
