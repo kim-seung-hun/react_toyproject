@@ -7,6 +7,8 @@
 - MVC패턴 적용
 
   - 설계를 꼼꼼하게 진행한 시스템이라도 유지보수가 발생하기 시작하면 각 기능간의 결합도가 높아지는 경우가 발생히가 때문에 '유지보수의 편리성' 측면에서 MVC 패턴이 주로 사용된다
+    <img width="760" alt="스크린샷 2023-01-12 오후 3 46 54" src="https://user-images.githubusercontent.com/107898063/211996855-83652277-9890-4829-a45e-c90e8c8e63d6.png">
+    
 - C(create), R(read), U(update), D(delete) 구현
 - RDBMS(관계형데이터베이스) 구현
 <br/>
