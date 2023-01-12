@@ -12,3 +12,8 @@
 ----------------------
 **1. express 서버 열기**
 
+- app.js
+`
+const express = require("express");
+require("dotenv").config();
+`
