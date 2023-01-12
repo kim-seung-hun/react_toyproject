@@ -39,3 +39,17 @@
 - model
 
 ![스크린샷 2023-01-12 오후 3 41 19](https://user-images.githubusercontent.com/107898063/211995923-2b21e648-3caf-4bf2-b134-ddc5e7f4917a.png)
+
+**5. 다음과 같은 순서로 MVC 패턴 적용하여 CRUD 쿼리 작성**
+
+- router
+
+![스크린샷 2023-01-12 오후 4 00 40](https://user-images.githubusercontent.com/107898063/211999108-c5f3b2fd-ac26-4c16-a57a-577e4b4022b5.png)
+
+- controller
+
+![스크린샷 2023-01-12 오후 4 01 29](https://user-images.githubusercontent.com/107898063/211999271-4544a29f-a506-4153-ac2b-40c6853529b6.png)
+
+- service
+
+![스크린샷 2023-01-12 오후 4 01 55](https://user-images.githubusercontent.com/107898063/211999350-7cc5e659-5e33-4099-bb70-1287cab1b782.png)
