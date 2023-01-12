@@ -42,6 +42,11 @@
 
 **5. 다음과 같은 순서로 MVC 패턴 적용하여 CRUD 쿼리 작성**
 
+  1. frontend에서 데이터와 함께 axios로 전송
+  2. backend에선 첫번째로 router로 받고 controller로 전달
+  3. controller에서 데이터 관련작업을 service에서 function을 import 하여 데이터 작업 실시
+  4. controller에서 데이터 작업 완료되면 frontend로 전달
+
 - router
 
 ![스크린샷 2023-01-12 오후 4 00 40](https://user-images.githubusercontent.com/107898063/211999108-c5f3b2fd-ac26-4c16-a57a-577e4b4022b5.png)
