@@ -29,8 +29,8 @@
 
 ![스크린샷 2023-01-12 오후 3 33 03](https://user-images.githubusercontent.com/107898063/211994703-20464d3c-66c0-4cd9-ae34-86e22f44611f.png)
 
-**4. model 생성**
+**4. model 폴더에서 sequelize 설정**
 
-- model.js
+- model
 
 ![스크린샷 2023-01-12 오후 3 41 19](https://user-images.githubusercontent.com/107898063/211995923-2b21e648-3caf-4bf2-b134-ddc5e7f4917a.png)
