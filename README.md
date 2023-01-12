@@ -15,7 +15,7 @@
 
 - app.js
 
-![app.js](https://user-images.githubusercontent.com/107898063/211992767-83e8c416-41d6-4482-aa26-7fde883b0155.png)
+![app.js](https://user-images.githubusercontent.com/107898063/211995803-8e52d634-c2b8-4a0b-87b0-d903a72354fa.png)
 
 **2. MVC 패턴 폴더 구성**
 
