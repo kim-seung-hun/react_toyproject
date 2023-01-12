@@ -58,3 +58,10 @@
 - service
 
 ![스크린샷 2023-01-12 오후 4 01 55](https://user-images.githubusercontent.com/107898063/211999350-7cc5e659-5e33-4099-bb70-1287cab1b782.png)
+
+**6. 관계형데이터베이스**
+
+- model에서 DB table을 생성할때 아래와 같은 코드로 foreignKey와 sourceKey를 작성하여 원하는 column끼리 연결한다
+
+![스크린샷 2023-01-12 오후 4 12 25](https://user-images.githubusercontent.com/107898063/212001139-194a2039-079a-4f6f-944f-1681da2607fc.png)
+
