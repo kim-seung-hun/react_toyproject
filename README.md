@@ -17,8 +17,14 @@
 
 ![app.js](https://user-images.githubusercontent.com/107898063/211992767-83e8c416-41d6-4482-aa26-7fde883b0155.png)
 
-**2. MVC 패턴 폴더 구성***
+**2. MVC 패턴 폴더 구성**
 
-- back
+- back 폴더
 
 ![back폹더](https://user-images.githubusercontent.com/107898063/211993900-7ee27169-0301-400e-a6ab-6f0374a7831b.png)
+
+**3. mysql 데이터베이스 접근**
+
+- config.js
+
+
